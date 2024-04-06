@@ -1,5 +1,6 @@
 package io.xpipe.app.issue;
 
+import io.github.pixee.security.ObjectInputFilters;
 import io.sentry.*;
 import io.sentry.protocol.SentryId;
 import io.sentry.protocol.User;
@@ -54,6 +55,7 @@ public class SentryErrorHandler implements ErrorHandler {
 
             ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
             ObjectInputStream ois = new ObjectInputStream(bais);
+            ObjectInputFilters.enableObjectFilterIfUnprotected(ois);
             var copy = (Throwable) ois.readObject();
 
             var msgField = Throwable.class.getDeclaredField("detailMessage");
