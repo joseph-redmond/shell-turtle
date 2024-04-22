@@ -1,5 +1,6 @@
 package io.xpipe.app.util;
 
+import io.github.pixee.security.SystemCommand;
 import io.xpipe.app.issue.ErrorEvent;
 
 public class Hyperlinks {
@@ -22,19 +23,18 @@ public class Hyperlinks {
         String osName = System.getProperty("os.name");
         try {
             if (osName.startsWith("Mac OS")) {
-                Runtime.getRuntime().exec("open " + uri);
+                SystemCommand.runCommand(Runtime.getRuntime(), "open " + uri);
             } else if (osName.startsWith("Windows")) {
-                Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + uri);
+                SystemCommand.runCommand(Runtime.getRuntime(), "rundll32 url.dll,FileProtocolHandler " + uri);
             } else { // assume Unix or Linux
                 String browser = null;
                 for (String b : browsers) {
                     if (browser == null
-                            && Runtime.getRuntime()
-                                            .exec(new String[] {"which", b})
+                            && SystemCommand.runCommand(Runtime.getRuntime(), new String[] {"which", b})
                                             .getInputStream()
                                             .read()
                                     != -1) {
-                        Runtime.getRuntime().exec(new String[] {browser = b, uri});
+                        SystemCommand.runCommand(Runtime.getRuntime(), new String[] {browser = b, uri});
                     }
                 }
                 if (browser == null) {
