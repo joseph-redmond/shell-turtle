@@ -1,5 +1,6 @@
 package io.xpipe.core.process;
 
+import io.github.pixee.security.BoundedLineReader;
 import lombok.SneakyThrows;
 
 import java.io.BufferedReader;
@@ -30,7 +31,7 @@ public class PropertiesFormatsParser {
 
         String currentKey = null;
         StringBuilder currentValue = new StringBuilder();
-        while ((line = reader.readLine()) != null) {
+        while ((line = BoundedLineReader.readLine(reader, 5_000_000)) != null) {
             if (line.startsWith(" ") || line.startsWith("\t")) {
                 currentValue.append(line);
                 continue;
