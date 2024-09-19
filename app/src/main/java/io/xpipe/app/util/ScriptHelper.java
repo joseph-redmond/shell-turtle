@@ -5,6 +5,7 @@ import io.xpipe.core.process.*;
 import io.xpipe.core.store.FilePath;
 import io.xpipe.core.util.FailableFunction;
 import io.xpipe.core.util.SecretValue;
+import java.security.SecureRandom;
 import lombok.SneakyThrows;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public class ScriptHelper {
         // A deterministic approach can cause permission problems when two different users execute the same command on a
         // system
         // Therefore, use a random approach
-        return new Random().nextInt(Integer.MAX_VALUE);
+        return new SecureRandom().nextInt(Integer.MAX_VALUE);
     }
 
     @SneakyThrows
