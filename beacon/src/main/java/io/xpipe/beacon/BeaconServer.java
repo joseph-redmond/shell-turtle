@@ -1,5 +1,6 @@
 package io.xpipe.beacon;
 
+import io.github.pixee.security.BoundedLineReader;
 import io.xpipe.beacon.exchange.StopExchange;
 import io.xpipe.core.process.OsType;
 import io.xpipe.core.store.FileNames;
@@ -73,7 +74,7 @@ public class BeaconServer {
                         InputStreamReader isr = new InputStreamReader(proc.getInputStream());
                         BufferedReader br = new BufferedReader(isr);
                         String line;
-                        while ((line = br.readLine()) != null) {
+                        while ((line = BoundedLineReader.readLine(br, 5_000_000)) != null) {
                             if (print) {
                                 System.out.println("[xpiped] " + line);
                             }
@@ -93,7 +94,7 @@ public class BeaconServer {
                         InputStreamReader isr = new InputStreamReader(proc.getErrorStream());
                         BufferedReader br = new BufferedReader(isr);
                         String line;
-                        while ((line = br.readLine()) != null) {
+                        while ((line = BoundedLineReader.readLine(br, 5_000_000)) != null) {
                             if (print) {
                                 System.err.println("[xpiped] " + line);
                             }
