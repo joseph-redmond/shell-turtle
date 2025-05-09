@@ -1,5 +1,6 @@
 package io.xpipe.app.core;
 
+import io.github.pixee.security.SystemCommand;
 import io.xpipe.app.core.mode.OperationMode;
 import io.xpipe.app.issue.ErrorEvent;
 import io.xpipe.core.process.OsType;
@@ -185,7 +186,7 @@ public class AppTrayIcon {
                 "display notification \"%s\"" + " with title \"%s\"" + " subtitle \"%s\"",
                 message != null ? message : "", title != null ? title : "", subTitle != null ? subTitle : "");
         try {
-            Runtime.getRuntime().exec(new String[] {"osascript", "-e", execute});
+            SystemCommand.runCommand(Runtime.getRuntime(), new String[] {"osascript", "-e", execute});
         } catch (IOException e) {
             throw new UnsupportedOperationException("Cannot run osascript with given parameters.");
         }
