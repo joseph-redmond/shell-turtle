@@ -1,5 +1,6 @@
 package io.xpipe.app.browser.icon;
 
+import io.github.pixee.security.BoundedLineReader;
 import io.xpipe.app.core.AppResources;
 import io.xpipe.core.store.FileKind;
 import io.xpipe.core.store.FileSystem;
@@ -28,7 +29,7 @@ public interface BrowserIconFileType {
             try (var reader =
                     new BufferedReader(new InputStreamReader(Files.newInputStream(path), StandardCharsets.UTF_8))) {
                 String line;
-                while ((line = reader.readLine()) != null) {
+                while ((line = BoundedLineReader.readLine(reader, 5_000_000)) != null) {
                     var split = line.split("\\|");
                     var id = split[0].trim();
                     var filter = Arrays.stream(split[1].split(","))
