@@ -1,5 +1,6 @@
 package io.xpipe.beacon;
 
+import io.github.pixee.security.SystemCommand;
 import io.xpipe.beacon.exchange.StopExchange;
 import io.xpipe.core.process.OsType;
 import io.xpipe.core.store.FileNames;
@@ -37,7 +38,7 @@ public class BeaconServer {
             var toExec =
                     custom + (BeaconConfig.getDaemonArguments() != null ? " " + BeaconConfig.getDaemonArguments() : "");
             var command = toProcessCommand(toExec);
-            Process process = Runtime.getRuntime().exec(command.toArray(String[]::new));
+            Process process = SystemCommand.runCommand(Runtime.getRuntime(), command.toArray(String[]::new));
             printDaemonOutput(process, command);
             return process;
         }
